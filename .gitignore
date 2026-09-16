@@ -1,0 +1,24 @@
+﻿# Git Performance Exclusions
+node_modules/
+.uv-cache/
+.serena/
+.playwright-mcp/
+mcp-servers/
+%SystemDrive%/
+.agent-browser/
+downloads/*
+!downloads/.gitkeep
+
+# Python & Node Caches
+__pycache__/
+*.pyc
+.pytest_cache/
+.npm/
+
+# Environment and Data
+.env
+.env.local
+*.log
+*.db
+*.db-shm
+*.db-wal

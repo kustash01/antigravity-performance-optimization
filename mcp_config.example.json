@@ -1,0 +1,20 @@
+﻿{
+  "mcpServers": {
+    "playwright": {
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "C:\\Users\\kustash01\\AppData\\Roaming\\npm\\node_modules\\@playwright\\mcp\\cli.js",
+        "--executable-path",
+        "C:\\Users\\kustash01\\Downloads\\chrome-win\\chrome-win\\chrome.exe",
+        "--user-data-dir",
+        "C:\\Users\\kustash01\\.gemini\\browser_profile"
+      ]
+    },
+    "github": {
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "C:\\Users\\kustash01\\AppData\\Roaming\\npm\\node_modules\\@modelcontextprotocol\\server-github\\dist\\index.js"
+      ]
+    }
+  }
+}
