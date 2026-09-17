@@ -1,32 +1,44 @@
-﻿<#
-.SYNOPSIS
-    Antigravity Environment Performance Optimizer for Windows
-.DESCRIPTION
-    Applies kernel-level filesystem caching, tunes Git performance,
-    and validates MCP server configurations.
-#>
+# Antigravity Environment & System Optimization Script
+# Zero Intelligence Loss (0% потери ума)
 
-Write-Host "⚡ Starting Antigravity Performance Optimization..." -ForegroundColor Cyan
+Write-Host "=== Antigravity & Windows Optimization ===" -ForegroundColor Cyan
 
-# 1. Git NTFS Performance Tuning
-Write-Host "`n[1/3] Tuning Git filesystem cache settings..." -ForegroundColor Yellow
+# 1. Git Performance Configuration
+Write-Host "[1/5] Applying Git High-Performance flags..." -ForegroundColor Yellow
+git config --global core.preloadindex true
+git config --global core.fscache true
+git config --global core.untrackedcache true
+git config --global feature.manyFiles true
+git config --global gc.auto 0
+Write-Host "      - Git cache enabled." -ForegroundColor Green
+
+# 2. Power Scheme Check
+Write-Host "[2/5] Checking Power Scheme..." -ForegroundColor Yellow
+$power = powercfg /getactivescheme
+Write-Host "      - $power" -ForegroundColor Green
+
+# 3. Scheduled Task Optimization
+Write-Host "[3/5] Optimizing AgentChromium Scheduled Task..." -ForegroundColor Yellow
 try {
-    git config core.preloadindex true
-    git config core.fscache true
-    Write-Host "✓ Git core.preloadindex and core.fscache enabled successfully." -ForegroundColor Green
+    $task = Get-ScheduledTask -TaskName 'AgentChromium' -ErrorAction Stop
+    $task.Settings.DisallowStartIfOnBatteries = $false
+    $task.Settings.StopIfGoingOnBatteries = $false
+    $task.Settings.Priority = 4
+    Set-ScheduledTask -InputObject $task | Out-Null
+    Write-Host "      - AgentChromium tuned for battery and interactive priority." -ForegroundColor Green
 } catch {
-    Write-Warning "Could not configure Git: $_"
+    Write-Host "      - AgentChromium task not yet registered. Run setup_scheduler_task.bat first." -ForegroundColor Gray
 }
 
-# 2. Benchmark Loopback Resolution
-Write-Host "`n[2/3] Checking IPv4 loopback latency..." -ForegroundColor Yellow
-$sw = [System.Diagnostics.Stopwatch]::StartNew()
-$t = Test-NetConnection -ComputerName 127.0.0.1 -Port 80 -WarningAction SilentlyContinue
-$sw.Stop()
-Write-Host "✓ Direct 127.0.0.1 response checked in $($sw.ElapsedMilliseconds)ms (IPv6 fallback bypassed)." -ForegroundColor Green
+# 4. Process Priority helper
+Write-Host "[4/5] Process Priority Helper available for Chrome..." -ForegroundColor Yellow
+Get-Process -Name chrome -ErrorAction SilentlyContinue | ForEach-Object {
+    $_.PriorityClass = [System.Diagnostics.ProcessPriorityClass]::AboveNormal
+}
+Write-Host "      - Active Chrome instances set to AboveNormal priority." -ForegroundColor Green
 
-# 3. Summary
-Write-Host "`n[3/3] Optimization Complete!" -ForegroundColor Cyan
-Write-Host "• Always set WaitMsBeforeAsync to 10000 for CLI tools to prevent task backgrounding." -ForegroundColor Gray
-Write-Host "• Use direct Node executable paths for MCP servers instead of npx." -ForegroundColor Gray
-Write-Host "• Ensure heavy folders (node_modules, .venv, .uv-cache) are in .gitignore." -ForegroundColor Gray
+# 5. Elevated Optimizations Note
+Write-Host "[5/5] For elevated kernel tweaks (NTFS LastAccess, Defender Exclusions, TCP FastOpen):" -ForegroundColor Yellow
+Write-Host "      Run APPLY_SYSTEM_SPEEDUP.bat as Administrator." -ForegroundColor Cyan
+
+Write-Host "`n=== Optimization Complete! ===" -ForegroundColor Green
